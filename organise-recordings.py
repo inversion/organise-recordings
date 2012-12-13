@@ -76,6 +76,8 @@ def match_files_cal(datesAndSummaries, summarySet, filesAndTimes, maxDistMinsArg
             print "Matched " + str(f[0]) + " (finished at " + str(f[1]) + ") to '" + close[0][1] + "' (finished at " + str(close[0][0]) + "). Distance " + str(int(abs(close[0][0] - f[1]).total_seconds()/60)) + " minutes."
         else:
             # Multiple matches, show sorted list from closest time and prompt for choice
+            potentialMatches = sorted(close, key=lambda c: abs(close[0][0] - f[1]))
+            print potentialMatches
             pass
     
 # Set up the argument parser and retrieve the command line parameters
