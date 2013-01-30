@@ -7,6 +7,7 @@ import datetime
 import pytz
 import os
 import shutil
+import re
 
 # Read calendar from ical and get times and event names
 def get_calendar_tuples(calFile):
@@ -64,7 +65,7 @@ def match_files_cal(datesAndSummaries, filesAndTimes, maxDistMinsArg, inputDir, 
     
     # Copy the recording to the target directory with a new, formatted name
     def copyRecording(eventName, mtime, origName):
-        targetName = str(eventName) + " " + mtime.strftime('%Y-%m-%d %H-%M') + origName[origName.rfind('.'):]
+        targetName = re.sub(r'[/\\:]', r' ', str(eventName)) + " " + mtime.strftime('%Y-%m-%d %H-%M') + origName[origName.rfind('.'):]
         targetPath = os.path.join(outputDir, targetName)
 
         sourcePath = os.path.join(inputDir, origName)
@@ -110,7 +111,7 @@ def parse_arguments():
     return parser.parse_args()
 
 if __name__ == "__main__":
-    defaultMaxDistMins = 90
+    defaultMaxDistMins = 20
 
     # Set up logging
     logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
